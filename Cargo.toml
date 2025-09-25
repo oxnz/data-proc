@@ -1,0 +1,29 @@
+[package]
+name = "data-proc"
+version = "0.1.0"
+edition = "2024"
+authors = ["Max Zhang <yunxinyi@gmail.com>"]
+description = "A data processing pipeline framework with Source, Transformer, and Sink traits"
+license = "MIT"
+repository = "https://github.com/max-zhang/data-proc"
+documentation = "https://docs.rs/data-proc"
+readme = "README.md"
+keywords = ["data", "transformation", "pipeline", "stream"]
+categories = ["asynchronous", "data-structures"]
+exclude = [".github/", "examples/", "tests/", "target/", "benches/"]
+
+[dependencies]
+async-stream = "0.3.5"
+futures = "0.3.30"
+log = "0.4.21"
+serde_json = "1.0.117"
+thiserror = "1.0.61"
+tokio = { version = "1.47.1", features = ["full"] }
+tokio-stream = "0.1.17"
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
+
+[dev-dependencies]
+arrow = "56.1.0"
+reqwest = "0.12.23"
+parquet = { version = "56.1.0", features = ["async", "zstd"] }
