@@ -1,6 +1,6 @@
 mod console;
 mod fio;
-mod nio;
+mod http;
 use futures::Stream;
 use std::io::Error;
 
