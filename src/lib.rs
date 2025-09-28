@@ -1,19 +1,26 @@
+mod console;
+mod fio;
+mod nio;
+use futures::Stream;
 use std::io::Error;
 
-use futures::Stream;
+pub use console::{Stdin, Stdout};
 
-pub trait Source<T> {
+pub trait Input<T> {
     fn into_stream(self) -> impl Stream<Item = T>;
 }
 
-pub trait Transformer<T, U> {
-    fn proc<S>(&self, stream: S) -> impl std::future::Future<Output = impl Stream<Item = U>> + Send
+pub trait Process<T, U> {
+    fn process<S>(
+        &self,
+        stream: S,
+    ) -> impl std::future::Future<Output = impl Stream<Item = U>> + Send
     where
         S: Stream<Item = T> + Send;
 }
 
-pub trait Sink<T> {
-    fn sink<S>(&self, stream: S) -> impl std::future::Future<Output = Result<(), Error>> + Send
+pub trait Output<T> {
+    fn output<S>(&self, stream: S) -> impl std::future::Future<Output = Result<(), Error>> + Send
     where
         S: Stream<Item = T> + Send;
 }
