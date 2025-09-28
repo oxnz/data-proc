@@ -26,12 +26,12 @@ impl<T: std::fmt::Display + Send> Output<T> for Stdout {
         S: futures::Stream<Item = T> + Send,
     {
         async move {
-            stream
-                .for_each(|o| async move {
-                    let s = format!("{o}\n");
-                    tokio::io::stdout().write(s.as_bytes()).await.unwrap();
-                })
-                .await;
+            let mut stdout = tokio::io::stdout();
+            futures::pin_mut!(stream);
+            while let Some(o) = stream.next().await {
+                let s = format!("{o}\n");
+                stdout.write(s.as_bytes()).await.unwrap();
+            }
             Ok(())
         }
     }
